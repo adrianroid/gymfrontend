@@ -3,13 +3,22 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/signin.vue'
 import SignUp from '../views/signup.vue'
+import UserProfile from '../views/profile.vue'
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: 'profile',
+        component: UserProfile
+      },
+    ]
   },
   {
     path: '/sign-in',
