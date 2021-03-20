@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="white" fixed clipped-left style="z-index:100">
+    <v-app-bar app color="white" fixed clipped-left style="z-index:100" height="56">
       <v-app-bar-nav-icon
         @click="drawer = !drawer"
         color="black"
@@ -18,6 +18,7 @@
       style="top:56px"
     >
       <NavBar />
+      
     </v-navigation-drawer>
 
     <v-main> 
