@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div
@@ -152,7 +151,7 @@
                   <button
                     @click="goNext"
                     type="submit"
-                    style="width: 100px"
+                    style="width: 100%"
                     class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                   >
                     Next
@@ -221,19 +220,86 @@
                 />
               </div>
             </div>
-                            <div class="px-4 text-right sm:px-6" style="margin-top:10px">
-                  <button
-                    @click="goNext"
-                    type="submit"
-                    style="width: 100px"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
-                    Next
-                  </button>
-                </div>
+            <div class="px-4 text-right sm:px-6" style="margin-top:20px">
+              <button
+                @click="goNext"
+                type="submit"
+                style="width: 100%"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Next
+              </button>
+            </div>
           </div>
           <div v-if="step == 3">
+            <div class="grid grid-cols-6 gap-6">
+              <div class="col-span-6">
+                <label
+                  for="card number"
+                  class="block text-sm font-medium text-gray-700"
+                  >Card
+                </label>
+                <input
+                  type="text"
+                  name="card number"
+                  id="card_number"
+                  autocomplete="street-address"
+                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
+                />
+              </div>
+              <div class="col-span-6">
+                <label
+                  for="card number"
+                  class="block text-sm font-medium text-gray-700"
+                  >Card Number</label
+                >
+                <input
+                  type="text"
+                  name="card number"
+                  id="card_number"
+                  autocomplete="street-address"
+                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
+                />
+              </div>
 
+              <div class="col-span-3">
+                <label
+                  for="exp_month"
+                  class="block text-sm font-medium text-gray-700"
+                  >Exp Month</label
+                >
+                <input
+                  type="text"
+                  name="exp_month"
+                  id="exp_month"
+                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
+                />
+              </div>
+
+              <div class="col-span-3">
+                <label
+                  for="state"
+                  class="block text-sm font-medium text-gray-700"
+                  >Exp Year</label
+                >
+                <input
+                  type="text"
+                  name="Exp Year"
+                  id="exp_year"
+                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
+                />
+              </div>
+            </div>
+            <div class="text-right sm:px-6" style="margin-top:20px">
+              <button
+                @click="goNext"
+                type="submit"
+                style="width: 100%"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              >
+                Pay
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -242,10 +308,12 @@
 </template>
 <script>
 import steps from "../components/steps.vue";
+import Payment from "../components/payment.vue";
 export default {
   name: "SignUp",
   components: {
     steps,
+    Payment,
   },
   // computed: {
   //   passwordMatch() {
@@ -273,7 +341,7 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    removeImage: function (e) {
+    removeImage: function(e) {
       this.image = "";
     },
     goNext() {

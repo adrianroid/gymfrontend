@@ -13,6 +13,7 @@
     "postcss": "^7.0.35",
     "postcss-loader": "^4.1.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.4",
+    "v-mask": "^2.2.4",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.4.0",
