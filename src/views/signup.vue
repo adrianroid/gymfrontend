@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-app>
     <div
       class="flex flex-col justify-center sm:py-12"
       style="background-color: whitesmoke !important; height: 100vh"
@@ -15,6 +15,7 @@
           />
         </div>
         <div
+          v-if="!spinner"
           class="shadow overflow-hidden sm:rounded-md px-4 py-5 bg-white sm:p-6"
           style="
           px-4 py-5 bg-white sm:p-6
@@ -142,7 +143,7 @@
                   <div v-else>
                     <input
                       type="file"
-                      class=" bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       @change="onFileChange"
                     />
                   </div>
@@ -164,91 +165,6 @@
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6">
                 <label
-                  for="street_address"
-                  class="block text-sm font-medium text-gray-700"
-                  >Street address</label
-                >
-                <input
-                  type="text"
-                  name="street_address"
-                  id="street_address"
-                  autocomplete="street-address"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
-              </div>
-
-              <div class="col-span-2">
-                <label
-                  for="city"
-                  class="block text-sm font-medium text-gray-700"
-                  >City</label
-                >
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
-                />
-              </div>
-
-              <div class="col-span-2">
-                <label
-                  for="state"
-                  class="block text-sm font-medium text-gray-700"
-                  >State</label
-                >
-                <input
-                  type="text"
-                  name="state"
-                  id="state"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
-              </div>
-
-              <div class="col-span-2">
-                <label
-                  for="postal_code"
-                  class="block text-sm font-medium text-gray-700"
-                  >ZIP</label
-                >
-                <input
-                  type="text"
-                  name="postal_code"
-                  id="postal_code"
-                  autocomplete="postal-code"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
-              </div>
-            </div>
-            <div class="px-4 text-right sm:px-6" style="margin-top:20px">
-              <button
-                @click="goNext"
-                type="submit"
-                style="width: 100%"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-          <div v-if="step == 3">
-            <div class="grid grid-cols-6 gap-6">
-              <div class="col-span-6">
-                <label
-                  for="card number"
-                  class="block text-sm font-medium text-gray-700"
-                  >Card
-                </label>
-                <input
-                  type="text"
-                  name="card number"
-                  id="card_number"
-                  autocomplete="street-address"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
-              </div>
-              <div class="col-span-6">
-                <label
                   for="card number"
                   class="block text-sm font-medium text-gray-700"
                   >Card Number</label
@@ -261,8 +177,7 @@
                   class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
                 />
               </div>
-
-              <div class="col-span-3">
+              <div class="col-span-2">
                 <label
                   for="exp_month"
                   class="block text-sm font-medium text-gray-700"
@@ -275,24 +190,37 @@
                   class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
                 />
               </div>
-
-              <div class="col-span-3">
+              <div class="col-span-2">
                 <label
-                  for="state"
+                  for="exp_year"
                   class="block text-sm font-medium text-gray-700"
                   >Exp Year</label
                 >
                 <input
                   type="text"
-                  name="Exp Year"
+                  name="exp_year"
+                  id="exp_year"
+                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
+                />
+              </div>
+
+              <div class="col-span-2">
+                <label
+                  for="state"
+                  class="block text-sm font-medium text-gray-700"
+                  >Zip Code</label
+                >
+                <input
+                  type="text"
+                  name="Zip Code"
                   id="exp_year"
                   class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
                 />
               </div>
             </div>
-            <div class="text-right sm:px-6" style="margin-top:20px">
+            <div class="text-right sm:px-6" style="margin-top: 20px">
               <button
-                @click="goNext"
+                @click="submitPayment"
                 type="submit"
                 style="width: 100%"
                 class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
@@ -302,13 +230,25 @@
             </div>
           </div>
         </div>
+        <div v-if="spinner" class="self-center" style="position: relative">
+          <v-progress-circular
+            indeterminate
+            color="primary"
+            style="position: absolute; top: 50%; left: 50%"
+          ></v-progress-circular>
+        </div>
       </div>
+      <v-alert v-if="show_err" type="error" class="ml-3 mr-3" style="background: rgb(220, 38, 38)!important;">
+        {{err_message}}
+      </v-alert>
     </div>
-  </div>
+  </v-app>
 </template>
 <script>
 import steps from "../components/steps.vue";
 import Payment from "../components/payment.vue";
+import axios from "axios";
+import Vue from "vue";
 export default {
   name: "SignUp",
   components: {
@@ -324,7 +264,14 @@ export default {
   data: () => ({
     step: 1,
     image: "",
+    spinner: false,
+    show_err: false,
+    err_message: "Error Code 101.",
+    backend: Vue.config.productionTip
+      ? "http://localhost:3000/"
+      : "http://localhost:3000/",
   }),
+  mounted() {},
   methods: {
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
@@ -341,11 +288,42 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    removeImage: function(e) {
+    removeImage: function (e) {
       this.image = "";
     },
     goNext() {
       this.step += 1;
+    },
+    submitPayment() {
+      this.spinner = true;
+      this.show_err = false;
+      axios.post(`${this.backend}api/user/registerUser`, {
+          email: "test@test.com",
+          card: "4111111111111122",
+          expMonth: "12",
+          expYear: "2025",
+          cvv: " 123",
+          cardHolderName: "ADRIAN TEST",
+          postalCode: "12345",
+          amount: "10",
+          password: "123123123",
+          phone: "559578205",
+        })
+        .then((response) =>{
+          this.spinner = false;
+          var data = response.data
+          if (!data.success) {
+            this.show_err = true;
+            this.err_message = data.msg||"Error Signing Up. Please try again later.";
+          }else {
+            this.$router.push({ name: 'Home' })
+          }
+        })
+        .catch( (error)=> {
+          this.spinner = false;
+          this.show_err = true;
+          this.err_message = JSON.stringify(error)||"Error Signing Up. Please try again later.";
+        });
     },
   },
 };
