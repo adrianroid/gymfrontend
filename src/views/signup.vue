@@ -36,6 +36,7 @@
                       >First name</label
                     >
                     <input
+                      v-model="signUpForm.first_name"
                       type="text"
                       name="first_name"
                       id="first_name"
@@ -218,6 +219,33 @@
                 />
               </div>
             </div>
+            <hr class="mt-5 mb-5" />
+            <v-simple-table style="max-width: 400px!important; border:solid lightgrey 1px;" dense>
+              <template v-slot:default>
+                <tbody>
+                  <tr>
+                    <td><strong style="">{{months[nextMonth]}} 1st</strong></td>
+                    <td style="font-weight: bold;text-align: center; vertical-align: middle;"><strong style="">${{ monthly }} + ${{parseFloat(monthly * .035).toFixed(2)}}</strong></td>
+                  </tr>
+                  <tr style="color:crimson;">
+                    <td><strong style="">Due Today</strong></td>
+                    <td style="font-weight: bold;text-align: center; vertical-align: middle;"><strong style="">${{ cost() }}</strong></td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+            <!-- <div
+              class="flex space-x-4 space-x text-lg font-medium text-gray-700"
+            >
+              <span>Due Today</span>
+              <span class="ml-8">${{ cost() }}</span>
+            </div>
+            <div
+              class="flex space-x-4 space-x text-lg font-medium text-gray-700"
+            >
+              <span>Due {{months[nextMonth]}}</span>
+              <span class="ml-8">${{ cost() }}</span>
+            </div> -->
             <div class="text-right sm:px-6" style="margin-top: 20px">
               <button
                 @click="submitPayment"
@@ -238,8 +266,13 @@
           ></v-progress-circular>
         </div>
       </div>
-      <v-alert v-if="show_err" type="error" class="ml-3 mr-3" style="background: rgb(220, 38, 38)!important;">
-        {{err_message}}
+      <v-alert
+        v-if="show_err"
+        type="error"
+        class="ml-3 mr-3"
+        style="background: rgb(220, 38, 38)!important;"
+      >
+        {{ err_message }}
       </v-alert>
     </div>
   </v-app>
@@ -262,6 +295,9 @@ export default {
   // },
 
   data: () => ({
+    monthly: 79,
+    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    nextMonth: (new Date().getMonth()+1)%12,
     step: 1,
     image: "",
     spinner: false,
@@ -270,6 +306,20 @@ export default {
     backend: Vue.config.productionTip
       ? "http://localhost:3000/"
       : "http://localhost:3000/",
+    signUpForm: {
+      first_name: null,
+      last_name: null,
+      email: null,
+      card: null,
+      expMonth: null,
+      expYear: null,
+      cvv: null,
+      cardHolderName: null,
+      postalCode: null,
+      amount: null,
+      password: null,
+      phone: null,
+    },
   }),
   mounted() {},
   methods: {
@@ -288,41 +338,55 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    removeImage: function (e) {
+    removeImage: function(e) {
       this.image = "";
     },
     goNext() {
       this.step += 1;
     },
+    cost() {
+      var pricepermonth = this.monthly;
+      var dt = new Date();
+      var month = dt.getMonth();
+      var day = dt.getDate();
+      var year = dt.getFullYear();
+
+      if (month == 11) var nextMonth = new Date(year + 1, 0, 1);
+      else var nextMonth = new Date(year, month + 1, 1);
+
+      var today = new Date(year, month, day);
+
+      var remain = (nextMonth.getTime() - today.getTime()) / 1000;
+      remain = remain / (60 * 60 * 24);
+      var totaldays = day + remain;
+      var priceperday = pricepermonth / totaldays;
+
+      var remainingprice = priceperday * remain;
+      // alert(remainingprice);
+      return parseFloat(remainingprice).toFixed(2);
+    },
     submitPayment() {
       this.spinner = true;
       this.show_err = false;
-      axios.post(`${this.backend}api/user/registerUser`, {
-          email: "test@test.com",
-          card: "4111111111111122",
-          expMonth: "12",
-          expYear: "2025",
-          cvv: " 123",
-          cardHolderName: "ADRIAN TEST",
-          postalCode: "12345",
-          amount: "10",
-          password: "123123123",
-          phone: "559578205",
-        })
-        .then((response) =>{
+      axios
+        .post(`${this.backend}api/user/registerUser`, this.signUpForm)
+        .then((response) => {
           this.spinner = false;
-          var data = response.data
+          var data = response.data;
           if (!data.success) {
             this.show_err = true;
-            this.err_message = data.msg||"Error Signing Up. Please try again later.";
-          }else {
-            this.$router.push({ name: 'Home' })
+            this.err_message =
+              data.msg || "Error Signing Up. Please try again later.";
+          } else {
+            this.$router.push({ name: "Home" });
           }
         })
-        .catch( (error)=> {
+        .catch((error) => {
           this.spinner = false;
           this.show_err = true;
-          this.err_message = JSON.stringify(error)||"Error Signing Up. Please try again later.";
+          this.err_message =
+            JSON.stringify(error) ||
+            "Error Signing Up. Please try again later.";
         });
     },
   },
