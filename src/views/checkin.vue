@@ -1,7 +1,8 @@
 
 <template>
-<div>
-    <vue-qrcode value="https://www.1stg.me" />
+<div style="margin: 0 auto;">
+    <vue-qrcode style="margin: 0 auto;" :scale="50" value="https://www.1stg.me" />
+    <h1 style="margin: 0 auto; text-align:center; color: green; font-weight: bold;">Membeship Active</h1>
 </div>
 </template>
 
@@ -13,6 +14,7 @@ export default {
     VueQrcode
   },
   data: () => ({
+    scale:100
   }),
 };
 </script>

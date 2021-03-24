@@ -7,6 +7,7 @@ import UserProfile from '../views/profile.vue'
 import resetPassword from '../views/resetpassword.vue'
 import checkin from '../views/checkin.vue'
 import qrreader from '../views/qrreader.vue'
+import invoice from '../views/invoice.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -30,6 +31,10 @@ const routes = [
       {        
         path: 'user-checkin',
         component: qrreader
+      },
+      {        
+        path: 'invoices',
+        component: invoice
       }
     ]
   },
