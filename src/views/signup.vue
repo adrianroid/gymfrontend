@@ -36,7 +36,7 @@
                       >First name</label
                     >
                     <input
-                      v-model="signUpForm.first_name"
+                      v-model="signUpForm.last_name"
                       type="text"
                       name="first_name"
                       id="first_name"
@@ -52,6 +52,7 @@
                       >Last name</label
                     >
                     <input
+                    v-model="signUpForm.first_name"
                       type="text"
                       name="last_name"
                       id="last_name"
@@ -71,37 +72,40 @@
                       >Phone Number</label
                     >
                     <input
+                      v-model="signUpForm.phone"
                       type="text"
-                      name="postal_code"
-                      id="postal_code"
-                      autocomplete="postal-code"
+                      name="phone"
+                      id="phone"
+                      autocomplete="phone"
                       class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
                     />
                   </div>
                   <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                     <label
-                      for="state"
+                      for="email"
                       class="block text-sm font-medium text-gray-700"
                       >Email address</label
                     >
                     <input
-                      type="text"
-                      name="state"
-                      id="state"
+                      v-model="signUpForm.email"
+                      type="email"
+                      name="email"
+                      id="email"
                       class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
                     />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                     <label
-                      for="state"
+                      for="password"
                       class="block text-sm font-medium text-gray-700"
                       >Password</label
                     >
                     <input
+                      v-model="signUpForm.password"
                       type="password"
-                      name="state"
-                      id="state"
+                      name="password"
+                      id="password"
                       class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
                     />
                   </div>
@@ -166,13 +170,14 @@
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6">
                 <label
-                  for="card number"
+                  for="card_number"
                   class="block text-sm font-medium text-gray-700"
                   >Card Number</label
                 >
                 <input
+                  v-model="signUpForm.card_number"
                   type="text"
-                  name="card number"
+                  name="card_number"
                   id="card_number"
                   autocomplete="street-address"
                   class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
@@ -185,6 +190,7 @@
                   >Exp Month</label
                 >
                 <input
+                  v-model="signUpForm.expMonth"
                   type="text"
                   name="exp_month"
                   id="exp_month"
@@ -198,6 +204,7 @@
                   >Exp Year</label
                 >
                 <input
+                  v-model="signUpForm.expYear"
                   type="text"
                   name="exp_year"
                   id="exp_year"
@@ -212,6 +219,7 @@
                   >Zip Code</label
                 >
                 <input
+                  v-model="signUpForm.postalCode"
                   type="text"
                   name="Zip Code"
                   id="exp_year"
@@ -368,8 +376,11 @@ export default {
     submitPayment() {
       this.spinner = true;
       this.show_err = false;
+      if(this.signUpForm.card){
+
+      }
       axios
-        .post(`${this.backend}api/user/registerUser`, this.signUpForm)
+        .post(`${this.backend}api/user/registerUser`, {...this.signUpForm, amount: this.cost(), image: this.image})
         .then((response) => {
           this.spinner = false;
           var data = response.data;
@@ -397,9 +408,5 @@ export default {
 .signup-img {
   height: 100%;
   width: 100%;
-  // width: 30%;
-  // margin: auto;
-  // display: block;
-  // margin-bottom: 10px;
 }
 </style>
