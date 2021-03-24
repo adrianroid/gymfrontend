@@ -47,6 +47,7 @@
             </svg>
           </button>
           <div class="text-center whitespace-nowrap mt-2">
+          <router-link to="/reset-password">
             <button
               class="transition duration-200 mx-5 px-5  cursor-pointer font-normal text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset"
             >
@@ -66,6 +67,7 @@
               </svg>
               <span class="inline-block ml-1">Forgot Password</span>
             </button>
+          </router-link>
           </div>
         </div>
         <div class="py-2">

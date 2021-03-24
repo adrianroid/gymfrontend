@@ -4,6 +4,9 @@ import Home from '../views/Home.vue'
 import SignIn from '../views/signin.vue'
 import SignUp from '../views/signup.vue'
 import UserProfile from '../views/profile.vue'
+import resetPassword from '../views/resetpassword.vue'
+import checkin from '../views/checkin.vue'
+import qrreader from '../views/qrreader.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,9 +18,19 @@ const routes = [
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
+        path: '/',
+        component: checkin
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
         path: 'profile',
         component: UserProfile
       },
+      {        
+        path: 'user-checkin',
+        component: qrreader
+      }
     ]
   },
   {
@@ -26,9 +39,9 @@ const routes = [
     component: SignIn
   },
   {
-    path: '/sign-in',
-    name: 'Log In',
-    component: SignIn
+    path: '/reset-password',
+    name: 'Reset-Password',
+    component: resetPassword
   },
   {
     path: '/sign-up',
