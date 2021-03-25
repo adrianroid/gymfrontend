@@ -11,7 +11,7 @@ import invoice from '../views/invoice.vue'
 import members from '../views/members.vue'
 Vue.use(VueRouter)
 const isLoggedIn = (to, from, next) => {
-  if(localStorage.token) {
+  if (localStorage.token) {
     next({ name: "Login" });
   } else {
     next();
@@ -28,6 +28,10 @@ const routes = [
         path: '/',
         component: checkin,
         name: 'home',
+        meta: {
+          cookies: ['passcode_cookie', 'client_cookie'],
+          redirect: '/login'
+        }
       },
       {
         // UserProfile will be rendered inside User's <router-view>
@@ -36,17 +40,17 @@ const routes = [
         component: UserProfile,
         name: 'profile',
       },
-      {        
+      {
         path: 'user-checkin',
         component: qrreader,
         name: 'checkin',
       },
-      {        
+      {
         path: 'members',
         component: members,
         name: 'members',
       },
-      {        
+      {
         path: 'invoices',
         component: invoice,
         name: 'invoices',
@@ -74,25 +78,30 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-const getCookie = (cname)=> {
+const hasCookies = (cname) => {
   var name = cname + "=";
   var ca = document.cookie.split(';');
-  for(var i=0; i<ca.length; i++) {
-      var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1);
-      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
   }
   return "";
-} 
+}
 router.beforeEach((to, from, next) => {
-  console.log(to)
-  if(!(to.name == 'Login' || to.name == 'Sign Up' || to.name == 'Reset-Password' ))
-    if(){
-      next({name: 'Login'})
-    }
-    
-  else 
+  debugger
+  if (!hasCookies('session') && !(to.name == 'Login' || to.name == 'Sign Up' || to.name == 'Reset-Password')) {
+    next('/login')// go to login
+  }else if(to.name == 'Login' && hasCookies('session')){
+    next('/')
+  }
+  else { //catch if nothin exists
     next()
-})
+  }
+});
 
 export default router
