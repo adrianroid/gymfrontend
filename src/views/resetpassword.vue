@@ -43,7 +43,7 @@
         <div class="px-5 py-7 font-normal text-lg font-bold" v-if="linksent">
           Link has sent to you email or phone for password reset.
           <div class="text-center whitespace-nowrap mt-2">
-            <router-link to="sign-in">
+            <router-link to="login">
             <button
               class="transition duration-200 mx-5 px-5  cursor-pointer font-normal text-lg rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset"
             >

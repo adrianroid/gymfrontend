@@ -1,7 +1,7 @@
 
 <template>
 <div style="margin: 0 auto;">
-    <vue-qrcode style="margin: 0 auto;" :scale="50" value="https://www.1stg.me" />
+    <vue-qrcode style="margin: 0 auto;" :width="500" value="https://www.1stg.me" />
     <h1 style="margin: 0 auto; text-align:center; color: green; font-weight: bold;">Membeship Active</h1>
 </div>
 </template>

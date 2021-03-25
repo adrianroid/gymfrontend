@@ -8,39 +8,54 @@ import resetPassword from '../views/resetpassword.vue'
 import checkin from '../views/checkin.vue'
 import qrreader from '../views/qrreader.vue'
 import invoice from '../views/invoice.vue'
+import members from '../views/members.vue'
 Vue.use(VueRouter)
-
+const isLoggedIn = (to, from, next) => {
+  if(localStorage.token) {
+    next({ name: "Login" });
+  } else {
+    next();
+  }
+}
 const routes = [
   {
     path: '/',
-    name: 'Home',
     component: Home,
     children: [
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
         path: '/',
-        component: checkin
+        component: checkin,
+        name: 'home',
       },
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
         path: 'profile',
-        component: UserProfile
+        component: UserProfile,
+        name: 'profile',
       },
       {        
         path: 'user-checkin',
-        component: qrreader
+        component: qrreader,
+        name: 'checkin',
+      },
+      {        
+        path: 'members',
+        component: members,
+        name: 'members',
       },
       {        
         path: 'invoices',
-        component: invoice
+        component: invoice,
+        name: 'invoices',
       }
     ]
   },
   {
-    path: '/sign-in',
-    name: 'Log In',
+    path: '/login',
+    name: 'Login',
     component: SignIn
   },
   {
@@ -53,20 +68,31 @@ const routes = [
     name: 'Sign Up',
     component: SignUp
   },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
 ]
-
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+const getCookie = (cname)=> {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1);
+      if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+  }
+  return "";
+} 
+router.beforeEach((to, from, next) => {
+  console.log(to)
+  if(!(to.name == 'Login' || to.name == 'Sign Up' || to.name == 'Reset-Password' ))
+    if(){
+      next({name: 'Login'})
+    }
+    
+  else 
+    next()
 })
 
 export default router
