@@ -110,9 +110,7 @@ export default {
     snackbar: false,
     text: 'Email not valid.',
     timeout: 3000,
-    backend: Vue.config.productionTip
-      ? "http://localhost:3000/"
-      : "http://localhost:3000/"
+    backend: 'https://odd-rattlesnake-72.loca.lt/',
   }),
   methods: {
     login() {
@@ -127,7 +125,7 @@ export default {
         this.snackbar = true;
       }
       axios
-        .post(`${this.backend}api/user/login`, {email: this.email, password: this.password},{withCredentials: true})
+        .post(`${this.backend}api/user/login`, {email: this.email, password: this.password}, {headers: {'Access-Control-Allow-Origin': '*'}})
         .then((response) => {
           this.spinner = false;
           var data = response.data;

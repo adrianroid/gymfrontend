@@ -9,6 +9,7 @@ import checkin from '../views/checkin.vue'
 import qrreader from '../views/qrreader.vue'
 import invoice from '../views/invoice.vue'
 import members from '../views/members.vue'
+import stripe from '../views/stripe.vue'
 Vue.use(VueRouter)
 const isLoggedIn = (to, from, next) => {
   if (localStorage.token) {
@@ -54,6 +55,11 @@ const routes = [
         path: 'invoices',
         component: invoice,
         name: 'invoices',
+      },
+      {
+        path: 'stripe',
+        component: stripe,
+        name: 'stripe',
       }
     ]
   },
@@ -70,7 +76,7 @@ const routes = [
   {
     path: '/sign-up',
     name: 'Sign Up',
-    component: SignUp
+    component: stripe
   },
 ]
 const router = new VueRouter({
@@ -93,7 +99,6 @@ const hasCookies = (cname) => {
   return "";
 }
 router.beforeEach((to, from, next) => {
-  debugger
   if (!hasCookies('session') && !(to.name == 'Login' || to.name == 'Sign Up' || to.name == 'Reset-Password')) {
     next('/login')// go to login
   }else if(to.name == 'Login' && hasCookies('session')){
