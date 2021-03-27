@@ -9,7 +9,7 @@
       :cancel-url="cancelURL"
       @loading="v => loading = v"
     />
-    <button @click="submit">Subscribe!</button>
+    <!-- <button @click="submit">Subscribe!</button> -->
   </div>
 </template>
 
@@ -19,6 +19,9 @@ export default {
   name: 'stripe',
   components: {
     StripeCheckout,
+  },
+  mounted(){
+      this.$refs.checkoutRef.redirectToCheckout();
   },
   data () {
     this.publishableKey = 'pk_test_51IZ0xrF5TwdgwJJV5xM27HQ3FAEdMR77xAcOVLdt0WnUEXuc1kUbCmzVNPaUbe1geaT5coLfWMfkZKEiD800pMY800i9rhQh1n';
@@ -30,8 +33,8 @@ export default {
           quantity: 1,
         },
       ],
-      successURL: 'http://localhost:8080',
-      cancelURL: 'http://localhost:8080/sign-in',
+      successURL: 'https://polosgym.com',
+      cancelURL: 'https://polosgym.com',
     };
   },
   methods: {

@@ -19,62 +19,63 @@ const isLoggedIn = (to, from, next) => {
   }
 }
 const routes = [
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   children: [
+  //     {
+  //       // UserProfile will be rendered inside User's <router-view>
+  //       // when /user/:id/profile is matched
+  //       path: '/',
+  //       component: checkin,
+  //       name: 'home',
+  //     },
+  //     {
+  //       // UserProfile will be rendered inside User's <router-view>
+  //       // when /user/:id/profile is matched
+  //       path: 'profile',
+  //       component: UserProfile,
+  //       name: 'profile',
+  //     },
+  //     {
+  //       path: 'user-checkin',
+  //       component: qrreader,
+  //       name: 'checkin',
+  //     },
+  //     {
+  //       path: 'members',
+  //       component: members,
+  //       name: 'members',
+  //     },
+  //     {
+  //       path: 'invoices',
+  //       component: invoice,
+  //       name: 'invoices',
+  //     },
+  //     // {
+  //     //   path: 'stripe',
+  //     //   component: stripe,
+  //     //   name: 'stripe',
+  //     // }
+  //   ]
+  // },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: SignIn
+  // },
+  // {
+  //   path: '/reset-password',
+  //   name: 'Reset-Password',
+  //   component: resetPassword
+  // },
+  // {
+  //   path: '/sign-up',
+  //   name: 'Sign Up',
+  //   component: stripe
+  // },
   {
     path: '/',
-    component: Home,
-    children: [
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
-        path: '/',
-        component: checkin,
-        name: 'home',
-        meta: {
-          cookies: ['passcode_cookie', 'client_cookie'],
-          redirect: '/login'
-        }
-      },
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
-        path: 'profile',
-        component: UserProfile,
-        name: 'profile',
-      },
-      {
-        path: 'user-checkin',
-        component: qrreader,
-        name: 'checkin',
-      },
-      {
-        path: 'members',
-        component: members,
-        name: 'members',
-      },
-      {
-        path: 'invoices',
-        component: invoice,
-        name: 'invoices',
-      },
-      {
-        path: 'stripe',
-        component: stripe,
-        name: 'stripe',
-      }
-    ]
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: SignIn
-  },
-  {
-    path: '/reset-password',
-    name: 'Reset-Password',
-    component: resetPassword
-  },
-  {
-    path: '/sign-up',
     name: 'Sign Up',
     component: stripe
   },

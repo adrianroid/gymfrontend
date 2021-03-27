@@ -311,7 +311,9 @@ export default {
     spinner: false,
     show_err: false,
     err_message: "Error Code 101.",
-    backend: 'https://odd-rattlesnake-72.loca.lt/',
+    backend: Vue.config.productionTip
+      ? "http://localhost:3000/"
+      : "http://localhost:3000/",
     signUpForm: {
       first_name: null,
       last_name: null,
@@ -378,9 +380,7 @@ export default {
 
       }
       axios
-        .post(`${this.backend}api/user/registerUser`, {...this.signUpForm, amount: this.cost(), image: this.image},{ headers: {
-            'Bypass-Tunnel-Reminder': 'polosgym',
-          }})
+        .post(`${this.backend}api/user/registerUser`, {...this.signUpForm, amount: this.cost(), image: this.image})
         .then((response) => {
           this.spinner = false;
           var data = response.data;
