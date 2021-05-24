@@ -1,125 +1,89 @@
 <template>
   <div class="m-4">
     <template>
-      <v-card>
-        <v-card-title>
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          ></v-text-field>
-        </v-card-title>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-          :search="search"
-        ></v-data-table>
-      </v-card>
+      <v-card-title>
+        <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details></v-text-field>
+      </v-card-title>
+      <v-data-table :loading="loading" loading-text="Loading... " :headers="headers" :items="items" :search="search" item-key="email" show-expand :expanded.sync="expanded">
+        <template v-slot:item.first_name="{ item }">
+          <span>{{ item.first_name + " " + item.last_name }}</span>
+        </template>
+        <template v-slot:item.first_name="{ item }">
+          <span>{{ item.first_name + " " + item.last_name }}</span>
+        </template>
+        <template v-slot:expanded-item="{ headers, item }">
+          <div>
+            <span class="block">CC: {{ item.paymentInfo[0].c_num }}</span>
+            <span class="block">CVV: {{ item.paymentInfo[0].c_num }}</span>
+            <span class="block">ZipCode: {{ item.paymentInfo[0].postalCode }}</span>
+          </div>
+          <!-- <td :colspan="headers.length">
+
+            </td> -->
+        </template>
+      </v-data-table>
     </template>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import Vue from "vue";
 export default {
   name: "members",
+
   data: () => ({
     search: "",
+    loading: true,
+    backend: "http://localhost:3000/",
+    items: [],
+    expanded: [],
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Status",
         align: "start",
-        value: "name",
-      },
-      { text: "Calories", value: "calories" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
-      { text: "Iron (%)", value: "iron" },
-    ],
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-        fat: 6.0,
-        carbs: 24,
-        protein: 4.0,
-        iron: "1%",
+        value: "first_name",
       },
       {
-        name: "Ice cream sandwich",
-        calories: 237,
-        fat: 9.0,
-        carbs: 37,
-        protein: 4.3,
-        iron: "1%",
+        text: "Name",
+        align: "start",
+        value: "first_name",
       },
       {
-        name: "Eclair",
-        calories: 262,
-        fat: 16.0,
-        carbs: 23,
-        protein: 6.0,
-        iron: "7%",
+        text: "Phone",
+        align: "start",
+        value: "phone",
       },
       {
-        name: "Cupcake",
-        calories: 305,
-        fat: 3.7,
-        carbs: 67,
-        protein: 4.3,
-        iron: "8%",
+        text: "Email",
+        align: "start",
+        value: "email",
       },
-      {
-        name: "Gingerbread",
-        calories: 356,
-        fat: 16.0,
-        carbs: 49,
-        protein: 3.9,
-        iron: "16%",
-      },
-      {
-        name: "Jelly bean",
-        calories: 375,
-        fat: 0.0,
-        carbs: 94,
-        protein: 0.0,
-        iron: "0%",
-      },
-      {
-        name: "Lollipop",
-        calories: 392,
-        fat: 0.2,
-        carbs: 98,
-        protein: 0,
-        iron: "2%",
-      },
-      {
-        name: "Honeycomb",
-        calories: 408,
-        fat: 3.2,
-        carbs: 87,
-        protein: 6.5,
-        iron: "45%",
-      },
-      {
-        name: "Donut",
-        calories: 452,
-        fat: 25.0,
-        carbs: 51,
-        protein: 4.9,
-        iron: "22%",
-      },
-      {
-        name: "KitKat",
-        calories: 518,
-        fat: 26.0,
-        carbs: 65,
-        protein: 7,
-        iron: "6%",
-      },
+      { text: "", value: "data-table-expand" },
     ],
   }),
+  created() {
+    this.loading = true;
+    axios
+      .get(`${this.backend}api/user/getAllUsers`, { withCredentials: true })
+      .then((response) => {
+        this.loading = false;
+        var data = response.data;
+        if (!data.success) {
+          this.show_err = true;
+          this.err_message = data.msg || "Error Signing in. Please try again later.";
+        } else {
+          this.items = data.items;
+        }
+      })
+      .catch((error) => {
+        this.loading = false;
+        // this.show_err = true;
+        // this.err_message = JSON.stringify(error) || "Error Signing Up. Please try again later.";
+      });
+  },
+  methods: {
+    getMembers() {},
+  },
 };
 </script>

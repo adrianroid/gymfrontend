@@ -24,36 +24,31 @@
 					<span class="flex font-medium text-sm text-gray-400 px-4 my-4 uppercase">Projects</span>
 				</li> -->
         <li class="my-px">
-          <router-link
-            to="/"
-            class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
-          >
-            <span
-              class="flex items-center justify-center text-lg text-gray-400"
-            >
-           <v-icon>mdi-account-circle-outline</v-icon>
+          <router-link to="/" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+            <span class="flex items-center justify-center text-lg text-gray-400">
+              <v-icon>mdi-account-circle-outline</v-icon>
             </span>
             <span class="ml-3">Check In</span>
           </router-link>
         </li>
         <li class="my-px">
-          <router-link
-            to="invoices"
-            class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
-          >
-            <span
-              class="flex items-center justify-center text-lg text-gray-400"
-            >
+          <router-link to="invoices" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+            <span class="flex items-center justify-center text-lg text-gray-400">
               <v-icon>mdi-receipt</v-icon>
             </span>
             <span class="ml-3">Invoices</span>
           </router-link>
         </li>
+        <li class="my-px" v-if="isAdmin">
+          <router-link to="members" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
+            <span class="flex items-center justify-center text-lg text-gray-400">
+              <v-icon>mdi-account</v-icon>
+            </span>
+            <span class="ml-3">Members</span>
+          </router-link>
+        </li>
         <li class="my-px">
-          <div
-            style="cursor: pointer;color:red!important;"
-            class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100"
-          >
+          <div style="cursor: pointer;color:red!important;" class="flex flex-row items-center h-12 px-4 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="flex items-center justify-center text-lg text-red-400">
               <v-icon style="color:red!important;">mdi-logout</v-icon>
             </span>
@@ -70,8 +65,14 @@ export default {
   name: "NavBar",
   data: () => ({
     open: false,
+    isAdmin: false,
   }),
   methods: {},
+  created() {
+    if (localStorage.admin) {
+      this.isAdmin = true;
+    }
+  },
   mounted() {},
 };
 </script>

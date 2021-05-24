@@ -1,18 +1,10 @@
 <template>
   <v-app>
-    <div
-      class="flex flex-col justify-center sm:py-12"
-      style="background-color: whitesmoke !important; height: 100vh"
-    >
+    <div class="flex flex-col justify-center sm:py-12" style="background-color: whitesmoke !important; height: 100vh">
       <steps :steps="3" :step="step"></steps>
       <div class="m-3">
         <div style="width: 100%" class="mb-1">
-          <img
-            class="self-center"
-            style="margin: auto"
-            width="200"
-            src="../assets/logo.png"
-          />
+          <img class="self-center" style="margin: auto" width="200" src="../assets/logo.png" />
         </div>
         <div
           v-if="!spinner"
@@ -30,35 +22,13 @@
                 <!-- <div class="px-4 py-5 bg-white sm:p-6"> -->
                 <div class="grid grid-cols-6 gap-6">
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="first_name"
-                      class="block text-sm font-medium text-gray-700"
-                      >First name</label
-                    >
-                    <input
-                      v-model="signUpForm.last_name"
-                      type="text"
-                      name="first_name"
-                      id="first_name"
-                      autocomplete="given-name"
-                      class="h-9 mt-1 block w-full shadow-sm sm:text-sm rounded-md border border-gray-300 border-solid"
-                    />
+                    <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
+                    <input v-model="signUpForm.first_name" type="text" name="first_name" id="first_name" autocomplete="given-name" class="h-9 mt-1 block w-full shadow-sm sm:text-sm rounded-md border border-gray-300 border-solid" />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3">
-                    <label
-                      for="last_name"
-                      class="block text-sm font-medium text-gray-700"
-                      >Last name</label
-                    >
-                    <input
-                    v-model="signUpForm.first_name"
-                      type="text"
-                      name="last_name"
-                      id="last_name"
-                      autocomplete="family-name"
-                      class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                    />
+                    <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
+                    <input v-model="signUpForm.last_name" type="text" name="last_name" id="last_name" autocomplete="family-name" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
                   </div>
 
                   <!-- <div class="col-span-6 sm:col-span-4">
@@ -66,48 +36,17 @@
                 <input type="text" name="email_address" id="email_address" autocomplete="email" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
               </div> -->
                   <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                    <label
-                      for="postal_code"
-                      class="block text-sm font-medium text-gray-700"
-                      >Phone Number</label
-                    >
-                    <input
-                      v-model="signUpForm.phone"
-                      type="text"
-                      name="phone"
-                      id="phone"
-                      autocomplete="phone"
-                      class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                    />
+                    <label for="postal_code" class="block text-sm font-medium text-gray-700">Phone Number</label>
+                    <input v-model="signUpForm.phone" type="text" name="phone" id="phone" autocomplete="phone" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
                   </div>
                   <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                    <label
-                      for="email"
-                      class="block text-sm font-medium text-gray-700"
-                      >Email address</label
-                    >
-                    <input
-                      v-model="signUpForm.email"
-                      type="email"
-                      name="email"
-                      id="email"
-                      class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                    />
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                    <input v-model="signUpForm.email" type="email" name="email" id="email" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
                   </div>
 
                   <div class="col-span-6 sm:col-span-3 lg:col-span-2">
-                    <label
-                      for="password"
-                      class="block text-sm font-medium text-gray-700"
-                      >Password</label
-                    >
-                    <input
-                      v-model="signUpForm.password"
-                      type="password"
-                      name="password"
-                      id="password"
-                      class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                    />
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input v-model="signUpForm.password" type="password" name="password" id="password" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
                   </div>
                 </div>
                 <!-- </div> -->
@@ -125,9 +64,7 @@
                     Photo
                   </label>
                   <div class="mt-1 flex items-center" v-if="image">
-                    <span
-                      class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100"
-                    >
+                    <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                       <img :src="image" class="signup-img" />
 
                       <!-- <div class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> -->
@@ -136,30 +73,18 @@
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg> -->
                     </span>
-                    <button
-                      @click="removeImage"
-                      class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
+                    <button @click="removeImage" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Remove image
                     </button>
                     <!-- <button type="button"> -->
                     <!-- </button> -->
                   </div>
                   <div v-else>
-                    <input
-                      type="file"
-                      class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      @change="onFileChange"
-                    />
+                    <input type="file" class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @change="onFileChange" />
                   </div>
                 </div>
                 <div class="px-4 py-3 text-right sm:px-6">
-                  <button
-                    @click="goNext"
-                    type="submit"
-                    style="width: 100%"
-                    class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
+                  <button @click="goNext" type="submit" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Next
                   </button>
                 </div>
@@ -169,79 +94,67 @@
           <div v-if="step == 2">
             <div class="grid grid-cols-6 gap-6">
               <div class="col-span-6">
-                <label
-                  for="card_number"
-                  class="block text-sm font-medium text-gray-700"
-                  >Card Number</label
-                >
-                <input
-                  v-model="signUpForm.card_number"
-                  type="text"
-                  name="card_number"
-                  id="card_number"
-                  autocomplete="street-address"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
+                <label for="card_number" class="block text-sm font-medium text-gray-700">Card Number</label>
+                <input v-model="signUpForm.card_number" type="text" name="card_number" id="card_number" autocomplete="street-address" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
               </div>
               <div class="col-span-2">
-                <label
-                  for="exp_month"
-                  class="block text-sm font-medium text-gray-700"
-                  >Exp Month</label
-                >
-                <input
-                  v-model="signUpForm.expMonth"
-                  type="text"
-                  name="exp_month"
-                  id="exp_month"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
-                />
+                <label for="exp_month" class="block text-sm font-medium text-gray-700">Exp Month</label>
+                <input v-model="signUpForm.expMonth" type="text" name="exp_month" id="exp_month" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md" />
               </div>
               <div class="col-span-2">
-                <label
-                  for="exp_year"
-                  class="block text-sm font-medium text-gray-700"
-                  >Exp Year</label
-                >
-                <input
-                  v-model="signUpForm.expYear"
-                  type="text"
-                  name="exp_year"
-                  id="exp_year"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md"
-                />
+                <label for="exp_year" class="block text-sm font-medium text-gray-700">Exp Year</label>
+                <input v-model="signUpForm.cvv" type="text" name="exp_year" id="exp_year" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md" />
+              </div>
+              <div class="col-span-2">
+                <label for="exp_year" class="block text-sm font-medium text-gray-700">CVV</label>
+                <input v-model="signUpForm.expYear" type="text" name="exp_year" id="exp_year" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-gray-300 border-solid border rounded-md" />
               </div>
 
-              <div class="col-span-2">
-                <label
-                  for="state"
-                  class="block text-sm font-medium text-gray-700"
-                  >Zip Code</label
-                >
-                <input
-                  v-model="signUpForm.postalCode"
-                  type="text"
-                  name="Zip Code"
-                  id="exp_year"
-                  class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md"
-                />
+              <div class="col-span-4">
+                <label for="state" class="block text-sm font-medium text-gray-700">Zip Code</label>
+                <input v-model="signUpForm.postalCode" type="text" name="Zip Code" id="exp_year" class="h-9 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 border-solid border rounded-md" />
               </div>
             </div>
             <hr class="mt-5 mb-5" />
-            <v-simple-table style="max-width: 400px!important; border:solid lightgrey 1px;" dense>
+            <!-- <v-simple-table
+              style="max-width: 400px !important; border: solid lightgrey 1px"
+              dense
+            >
               <template v-slot:default>
                 <tbody>
                   <tr>
-                    <td><strong style="">{{months[nextMonth]}} 1st</strong></td>
-                    <td style="font-weight: bold;text-align: center; vertical-align: middle;"><strong style="">${{ monthly }} + ${{parseFloat(monthly * .035).toFixed(2)}}</strong></td>
+                    <td>
+                      <strong style="">{{ months[nextMonth] }} 1st</strong>
+                    </td>
+                    <td
+                      style="
+                        font-weight: bold;
+                        text-align: center;
+                        vertical-align: middle;
+                      "
+                    >
+                      <strong style=""
+                        >${{ monthly }} + ${{
+                          parseFloat(monthly * 0.035).toFixed(2)
+                        }}</strong
+                      >
+                    </td>
                   </tr>
-                  <tr style="color:crimson;">
+                  <tr style="color: crimson">
                     <td><strong style="">Due Today</strong></td>
-                    <td style="font-weight: bold;text-align: center; vertical-align: middle;"><strong style="">${{ cost() }}</strong></td>
+                    <td
+                      style="
+                        font-weight: bold;
+                        text-align: center;
+                        vertical-align: middle;
+                      "
+                    >
+                      <strong style="">${{ cost() }}</strong>
+                    </td>
                   </tr>
                 </tbody>
               </template>
-            </v-simple-table>
+            </v-simple-table> -->
             <!-- <div
               class="flex space-x-4 space-x text-lg font-medium text-gray-700"
             >
@@ -255,31 +168,17 @@
               <span class="ml-8">${{ cost() }}</span>
             </div> -->
             <div class="text-right sm:px-6" style="margin-top: 20px">
-              <button
-                @click="submitPayment"
-                type="submit"
-                style="width: 100%"
-                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                Pay
+              <button @click="submitPayment" type="submit" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Sign Up
               </button>
             </div>
           </div>
         </div>
         <div v-if="spinner" class="self-center" style="position: relative">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-            style="position: absolute; top: 50%; left: 50%"
-          ></v-progress-circular>
+          <v-progress-circular indeterminate color="primary" style="position: absolute; top: 50%; left: 50%"></v-progress-circular>
         </div>
       </div>
-      <v-alert
-        v-if="show_err"
-        type="error"
-        class="ml-3 mr-3"
-        style="background: rgb(220, 38, 38)!important;"
-      >
+      <v-alert v-if="show_err" type="error" class="ml-3 mr-3" style="background: rgb(220, 38, 38) !important">
         {{ err_message }}
       </v-alert>
     </div>
@@ -304,16 +203,14 @@ export default {
 
   data: () => ({
     monthly: 79,
-    months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    nextMonth: (new Date().getMonth()+1)%12,
+    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    nextMonth: (new Date().getMonth() + 1) % 12,
     step: 1,
     image: "",
     spinner: false,
     show_err: false,
     err_message: "Error Code 101.",
-    backend: Vue.config.productionTip
-      ? "http://localhost:3000/"
-      : "http://localhost:3000/",
+    backend: Vue.config.productionTip ? "http://localhost:3000/" : "http://localhost:3000/",
     signUpForm: {
       first_name: null,
       last_name: null,
@@ -376,18 +273,21 @@ export default {
     submitPayment() {
       this.spinner = true;
       this.show_err = false;
-      if(this.signUpForm.card){
-
+      if (this.signUpForm.card) {
       }
       axios
-        .post(`${this.backend}api/user/registerUser`, {...this.signUpForm, amount: this.cost(), image: this.image})
+        .post( `${this.backend}api/user/registerUser`,{
+            ...this.signUpForm,
+            amount: this.cost(),
+            image: this.image,
+          }
+        )
         .then((response) => {
           this.spinner = false;
           var data = response.data;
           if (!data.success) {
             this.show_err = true;
-            this.err_message =
-              data.msg || "Error Signing Up. Please try again later.";
+            this.err_message = data.msg || "Error Signing Up. Please try again later.";
           } else {
             this.$router.push({ name: "Home" });
           }
@@ -395,9 +295,7 @@ export default {
         .catch((error) => {
           this.spinner = false;
           this.show_err = true;
-          this.err_message =
-            JSON.stringify(error) ||
-            "Error Signing Up. Please try again later.";
+          this.err_message = JSON.stringify(error) || "Error Signing Up. Please try again later.";
         });
     },
   },
