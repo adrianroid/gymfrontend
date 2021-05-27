@@ -97,6 +97,7 @@ export default {
           } else {
             if(data.isadmin){
             localStorage.admin = true;
+            this.$router.push({ path: "/members" });
             }
             this.$router.push({ path: "/" });
           }

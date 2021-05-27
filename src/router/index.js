@@ -42,6 +42,11 @@ const routes = [
         name: "checkin",
       },
       {
+        path: "update-profile",
+        component: qrreader,
+        name: "checkin",
+      },
+      {
         path: "members",
         component: members,
         name: "members",
@@ -55,6 +60,11 @@ const routes = [
         component: invoice,
         name: "invoices",
       },
+      // {
+      //   path: "profile",
+      //   component: UserProfile,
+      //   name: "UserProfile",
+      // },
 
       // {
       //   path: 'stripe',
