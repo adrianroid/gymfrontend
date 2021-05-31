@@ -1,6 +1,6 @@
 <template>
   <v-list>
-    <v-list-item v-for="(item, i) in items" :key="i" link :to="item.path">
+    <v-list-item v-for="(item, i) in items" :key="item.name" link :to="item.path" v-if="item.admin === isAdmin">
       <v-list-item-icon>
         <v-icon>{{ item.icon }}</v-icon>
       </v-list-item-icon>

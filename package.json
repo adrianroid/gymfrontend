@@ -12,6 +12,7 @@
     "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "firebase": "^8.6.3",
     "npm": "^7.6.3",
     "postcss": "^7.0.35",
     "postcss-loader": "^4.1.0",

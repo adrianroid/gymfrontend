@@ -9,6 +9,7 @@ import checkin from "../views/checkin.vue";
 import qrreader from "../views/qrreader.vue";
 import invoice from "../views/invoice.vue";
 import members from "../views/members.vue";
+import store from '../store/index';
 Vue.use(VueRouter);
 const isLoggedIn = (to, from, next) => {
   if (localStorage.token) {
@@ -109,6 +110,7 @@ const hasCookies = (cname) => {
   return "";
 };
 router.beforeEach((to, from, next) => {
+  store.commit('setUrl');
   if (!hasCookies("session") && !(to.name == "Login" || to.name == "Sign Up" || to.name == "Reset-Password")) {
     next("/login"); // go to login
   } else if (to.name == "Login" && hasCookies("session")) {

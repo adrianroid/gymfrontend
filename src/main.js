@@ -5,6 +5,7 @@ import store from './store'
 import './assets/styles/index.css';
 import vuetify from './plugins/vuetify';
 import VueMask from 'v-mask'
+
 Vue.config.productionTip = false
 
 new Vue({

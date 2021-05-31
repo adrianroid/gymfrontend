@@ -73,18 +73,18 @@
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg> -->
                     </span>
-                    <button @click="removeImage" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button @click="removeImage" type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Remove image
                     </button>
                     <!-- <button type="button"> -->
                     <!-- </button> -->
                   </div>
                   <div v-else>
-                    <input type="file" class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @change="onFileChange" />
+                    <input type="file" id="image" class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @change="onFileChange" />
                   </div>
                 </div>
                 <div class="px-4 py-3 text-right sm:px-6">
-                  <button @click="goNext" type="submit" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                  <button @click="goNext()" type="button" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Next
                   </button>
                 </div>
@@ -189,6 +189,7 @@ import steps from "../components/steps.vue";
 import Payment from "../components/payment.vue";
 import axios from "axios";
 import Vue from "vue";
+import { mapGetters } from 'vuex'
 export default {
   name: "SignUp",
   components: {
@@ -207,10 +208,10 @@ export default {
     nextMonth: (new Date().getMonth() + 1) % 12,
     step: 1,
     image: "",
+    imageData: null,
     spinner: false,
     show_err: false,
     err_message: "Error Code 101.",
-    backend: Vue.config.productionTip ? "http://localhost:3000/" : "http://localhost:3000/",
     signUpForm: {
       first_name: null,
       last_name: null,
@@ -226,11 +227,23 @@ export default {
       phone: null,
     },
   }),
+  computed: {
+    ...mapGetters(["backendUrl"]),
+  },
   mounted() {},
   methods: {
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
+
+      var fileMB = files[0].size / 1024000;
+      var im = document.getElementById("image");
+      if (20 < fileMB) {
+        this.show_err = true;
+        this.err_message = "Max File Size upload if 20MB";
+        im.value = "";
+        return;
+      }
       this.createImage(files[0]);
     },
     createImage(file) {
@@ -240,14 +253,48 @@ export default {
 
       reader.onload = (e) => {
         vm.image = e.target.result;
+        console.log(this.image);
       };
       reader.readAsDataURL(file);
+      this.imageData = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      };
     },
     removeImage: function(e) {
       this.image = "";
+      this.imageData = null;
     },
     goNext() {
-      this.step += 1;
+      var tmp_obj = {
+        fname: this.signUpForm.first_name,
+        lname: this.signUpForm.last_name,
+        e: this.signUpForm.email,
+        p: this.signUpForm.password,
+        ph: this.signUpForm.phone,
+      };
+      const isEmpty = () => {
+        for (var prop in tmp_obj) {
+          if (tmp_obj[prop] == null || tmp_obj[prop] === "") return true;
+        }
+        return false;
+      };
+      const validateEmail = (email) => {
+        email = (email + "").trim();
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return !re.test(email);
+      };
+      if (isEmpty()) {
+        this.err_message = "Please complete form.";
+        this.show_err = true;
+      } else if (validateEmail(tmp_obj.e)) {
+        this.show_err = false;
+        setTimeout(() => {
+          this.err_message = "Email address is not valid";
+          this.show_err = true;
+        }, 500);
+      } else this.step += 1;
     },
     cost() {
       var pricepermonth = this.monthly;
@@ -271,16 +318,34 @@ export default {
       return parseFloat(remainingprice).toFixed(2);
     },
     submitPayment() {
-      this.spinner = true;
-      this.show_err = false;
-      if (this.signUpForm.card) {
+      var tmp_obj = {
+        fname: this.signUpForm.first_name,
+        lname: this.signUpForm.last_name,
+        e: this.signUpForm.email,
+        p: this.signUpForm.password,
+        ph: this.signUpForm.phone,
+      };
+      const isEmpty = () => {
+        for (var prop in tmp_obj) {
+          if (tmp_obj[prop] == null || tmp_obj[prop] === "") return true;
+        }
+        return false;
+      };
+      if (isEmpty()) {
+        this.err_message = "Please complete form.";
+        this.show_err = true;
+        return;
       }
+
       axios
-        .post( `${this.backend}api/user/registerUser`,{
+        .post(
+          `${this.backendUrl}/api/user/registerUser`,
+          {
             ...this.signUpForm,
             amount: this.cost(),
             image: this.image,
-          }
+          },
+          { headers: { "Bypass-Tunnel-Reminder": true } }
         )
         .then((response) => {
           this.spinner = false;
@@ -298,6 +363,7 @@ export default {
           this.err_message = JSON.stringify(error) || "Error Signing Up. Please try again later.";
         });
     },
+    uploadToCloudinary() {},
   },
 };
 </script>

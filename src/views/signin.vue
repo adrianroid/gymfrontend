@@ -56,6 +56,7 @@
 <script>
 import axios from "axios";
 import Vue from "vue";
+import { mapGetters } from 'vuex'
 export default {
   name: "SignIn",
   // computed: {
@@ -72,8 +73,10 @@ export default {
     snackbar: false,
     text: "Email not valid.",
     timeout: 3000,
-    backend: Vue.config.productionTip ? "http://localhost:3000/" : "http://localhost:3000/",
   }),
+  computed: {
+    ...mapGetters(["backendUrl"]),
+  },
   methods: {
     login() {
       const validateEmail = (email) => {
@@ -87,7 +90,7 @@ export default {
         this.snackbar = true;
       }
       axios
-        .post(`${this.backend}api/user/login`, { email: this.email, password: this.password }, {withCredentials: true})
+        .post(`${this.backendUrl}/api/user/login`, { email: this.email, password: this.password }, { withCredentials: true, headers: { "Bypass-Tunnel-Reminder": true } })
         .then((response) => {
           this.spinner = false;
           var data = response.data;
@@ -95,9 +98,9 @@ export default {
             this.show_err = true;
             this.err_message = data.msg || "Error Signing in. Please try again later.";
           } else {
-            if(data.isadmin){
-            localStorage.admin = true;
-            this.$router.push({ path: "/members" });
+            if (data.isAdmin) {
+              localStorage.admin = true;
+              this.$router.push({ path: "/members" });
             }
             this.$router.push({ path: "/" });
           }
