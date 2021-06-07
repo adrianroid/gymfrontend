@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div class="flex flex-col justify-center sm:py-12" style="background-color: whitesmoke !important; height: 100vh">
-      <steps :steps="3" :step="step"></steps>
+      <!-- <steps :steps="3" :step="step"></steps> -->
       <div class="m-3">
         <div style="width: 100%" class="mb-1">
           <img class="self-center" style="margin: auto" width="200" src="../assets/logo.png" />
@@ -59,30 +59,30 @@
               <button @click="removeImage">Remove image</button>
             </div> -->
 
-                <div class="px-4 py-5">
+                <!-- <div class="px-4 py-5">
                   <label class="block text-sm font-medium text-gray-700">
                     Photo
                   </label>
                   <div class="mt-1 flex items-center" v-if="image">
                     <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                      <img :src="image" class="signup-img" />
+                      <img :src="image" class="signup-img" /> -->
 
                       <!-- <div class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"> -->
                       <!-- </div> -->
                       <!-- <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg> -->
-                    </span>
+                    <!-- </span>
                     <button @click="removeImage" type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                       Remove image
-                    </button>
+                    </button> -->
                     <!-- <button type="button"> -->
                     <!-- </button> -->
-                  </div>
+                  <!-- </div>
                   <div v-else>
                     <input type="file" id="image" class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @change="onFileChange" />
                   </div>
-                </div>
+                </div> -->
                 <div class="px-4 py-3 text-right sm:px-6">
                   <button @click="goNext()" type="button" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                     Next
@@ -168,10 +168,17 @@
               <span class="ml-8">${{ cost() }}</span>
             </div> -->
             <div class="text-right sm:px-6" style="margin-top: 20px">
+               <button @click="goBack" type="submit" style="width: 100%; margin-bottom: 5px;" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" >
+                Go Back
+              </button>
+              
               <button @click="submitPayment" type="submit" style="width: 100%" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                 Sign Up
               </button>
             </div>
+          </div>
+          <div v-if="step == 3">
+            
           </div>
         </div>
         <div v-if="spinner" class="self-center" style="position: relative">
@@ -189,7 +196,7 @@ import steps from "../components/steps.vue";
 import Payment from "../components/payment.vue";
 import axios from "axios";
 import Vue from "vue";
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   name: "SignUp",
   components: {
@@ -226,12 +233,16 @@ export default {
       password: null,
       phone: null,
     },
+    imgTmp: null
   }),
   computed: {
     ...mapGetters(["backendUrl"]),
   },
   mounted() {},
   methods: {
+    goBack(){
+      this.step = 1;
+    },
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (!files.length) return;
@@ -244,6 +255,7 @@ export default {
         im.value = "";
         return;
       }
+      this.imgTmp = files[0];
       this.createImage(files[0]);
     },
     createImage(file) {
@@ -253,7 +265,6 @@ export default {
 
       reader.onload = (e) => {
         vm.image = e.target.result;
-        console.log(this.image);
       };
       reader.readAsDataURL(file);
       this.imageData = {
@@ -318,6 +329,7 @@ export default {
       return parseFloat(remainingprice).toFixed(2);
     },
     submitPayment() {
+      this.show_err = false;
       var tmp_obj = {
         fname: this.signUpForm.first_name,
         lname: this.signUpForm.last_name,
@@ -336,16 +348,17 @@ export default {
         this.show_err = true;
         return;
       }
-
+      this.spinner = true;
       axios
         .post(
           `${this.backendUrl}/api/user/registerUser`,
           {
             ...this.signUpForm,
             amount: this.cost(),
-            image: this.image,
+            // profileImg: this.image,
+            // ...formData
           },
-          { headers: { "Bypass-Tunnel-Reminder": true } }
+          { withCredentials: true, headers: { "Bypass-Tunnel-Reminder": true} }
         )
         .then((response) => {
           this.spinner = false;
@@ -354,6 +367,7 @@ export default {
             this.show_err = true;
             this.err_message = data.msg || "Error Signing Up. Please try again later.";
           } else {
+
             this.$router.push({ name: "Home" });
           }
         })

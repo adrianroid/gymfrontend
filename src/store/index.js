@@ -10,24 +10,27 @@ export default new Vuex.Store({
   },
   mutations: {
     setUrl(state) {
-      const dbRef = firebase.database().ref();
+      const dbRef = firebase.database().ref("/backend");
       dbRef
-        .child("/backend")
-        .get()
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            state.backendUrl = (snapshot.val()).url;
-          } else {
-            state.backendUrl = null;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      .on('value', (snapshot) => {
+        console.log((snapshot.val()).url)
+        state.backendUrl = (snapshot.val()).url;
+      });
+        // .then((snapshot) => {
+        //   if (snapshot.exists()) {
+        //     console.log(state.backendUrl);
+        //     state.backendUrl = (snapshot.val()).url;
+        //   } else {
+        //     state.backendUrl = null;
+        //   }
+        // })
+        // .catch((error) => {
+        //   console.error(error);
+        // });
     },
   },
   getters:{
-    backendUrl: state =>{ // map data
+    backendUrl: state =>{
       return state.backendUrl;
     },
   },
